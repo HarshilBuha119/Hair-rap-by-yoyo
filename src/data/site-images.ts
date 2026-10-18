@@ -1,0 +1,62 @@
+import type { ImageSourcePropType } from 'react-native';
+
+// Generated: the salon's own photography (from hairrapbyyoyo.com), resized for the app.
+export const PHOTO = {
+  'academy-class': require('../../assets/site/academy-class.jpg'),
+  'academy-instructor': require('../../assets/site/academy-instructor.jpg'),
+  'academy-seated': require('../../assets/site/academy-seated.jpg'),
+  'academy-team': require('../../assets/site/academy-team.jpg'),
+  'body': require('../../assets/site/body.jpg'),
+  'bridal': require('../../assets/site/bridal.jpg'),
+  'colour-foils': require('../../assets/site/colour-foils.jpg'),
+  'cut-bob': require('../../assets/site/cut-bob.jpg'),
+  'cut-bob2': require('../../assets/site/cut-bob2.jpg'),
+  'detan': require('../../assets/site/detan.jpg'),
+  'facial-brush': require('../../assets/site/facial-brush.jpg'),
+  'facial-mask': require('../../assets/site/facial-mask.jpg'),
+  'footbath': require('../../assets/site/footbath.jpg'),
+  'founder': require('../../assets/site/founder.jpg'),
+  'hero-silhouette': require('../../assets/site/hero-silhouette.jpg'),
+  'kids': require('../../assets/site/kids.jpg'),
+  'lounge-arch': require('../../assets/site/lounge-arch.jpg'),
+  'lounge-barber': require('../../assets/site/lounge-barber.jpg'),
+  'lounge-hair': require('../../assets/site/lounge-hair.jpg'),
+  'lounge-marble': require('../../assets/site/lounge-marble.jpg'),
+  'lounge-mirror': require('../../assets/site/lounge-mirror.jpg'),
+  'lounge-reception': require('../../assets/site/lounge-reception.jpg'),
+  'lounge-styling': require('../../assets/site/lounge-styling.jpg'),
+  'massage': require('../../assets/site/massage.jpg'),
+  'men-beard': require('../../assets/site/men-beard.jpg'),
+  'men-colour': require('../../assets/site/men-colour.jpg'),
+  'men-cut': require('../../assets/site/men-cut.jpg'),
+  'men-facial': require('../../assets/site/men-facial.jpg'),
+  'nails-pink': require('../../assets/site/nails-pink.jpg'),
+  'nails-tech': require('../../assets/site/nails-tech.jpg'),
+  'pedicure': require('../../assets/site/pedicure.jpg'),
+  'portrait-yoyo': require('../../assets/site/portrait-yoyo.jpg'),
+  'removal': require('../../assets/site/removal.jpg'),
+  'style-wash': require('../../assets/site/style-wash.jpg'),
+  'team-anuj': require('../../assets/site/team-anuj.jpg'),
+  'team-garima': require('../../assets/site/team-garima.jpg'),
+  'team-sugar': require('../../assets/site/team-sugar.jpg'),
+  'team-yoyo': require('../../assets/site/team-yoyo.jpg'),
+  'treat-iron': require('../../assets/site/treat-iron.jpg'),
+  'treat-wash': require('../../assets/site/treat-wash.jpg'),
+  'voucher': require('../../assets/site/voucher.jpg'),
+} as const satisfies Record<string, ImageSourcePropType>;
+
+export const BRAND_TILES = {
+  'biotop': require('../../assets/brands/biotop.png'),
+  'dermalogica': require('../../assets/brands/dermalogica.png'),
+  'gk': require('../../assets/brands/gk.png'),
+  'kanpeki': require('../../assets/brands/kanpeki.png'),
+  'keune': require('../../assets/brands/keune.png'),
+  'milkshake': require('../../assets/brands/milkshake.png'),
+  'olaplex': require('../../assets/brands/olaplex.png'),
+  'osis': require('../../assets/brands/osis.png'),
+  'ph': require('../../assets/brands/ph.png'),
+  'schwarzkopf': require('../../assets/brands/schwarzkopf.png'),
+} as const satisfies Record<string, ImageSourcePropType>;
+
+export const LOGO_MARK: ImageSourcePropType = require('../../assets/brand/logo-mark.png');
+export const WORDMARK: ImageSourcePropType = require('../../assets/brand/wordmark.png');

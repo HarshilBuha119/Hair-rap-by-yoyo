@@ -1,0 +1,267 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Hair Rap by Yoyo: Mobile App MVP Proposal</title>
+<style>
+  @page { size: A4; margin: 0; }
+  :root { --ink:#0F0F12; --ink2:#1D1D23; --ivory:#F7F3EC; --sand:#EDE6DA; --line:#E1D8C8; --gold:#B98B47; --goldsoft:#E9D8B7; --muted:#6B665E; --ok:#2F7D5B; }
+  * { box-sizing: border-box; }
+  html, body { margin:0; padding:0; background:#fff; color:var(--ink); font-family:"Segoe UI", system-ui, -apple-system, Arial, sans-serif; font-size:10.5pt; line-height:1.5; -webkit-print-color-adjust:exact; print-color-adjust:exact; }
+  h1, h2, h3 { font-family: Georgia, "Times New Roman", serif; margin:0; font-weight:700; }
+  .page { width:210mm; height:297mm; padding:16mm 17mm; page-break-after:always; overflow:hidden; position:relative; background:var(--ivory); }
+  .page:last-child { page-break-after:auto; }
+  .kicker { font-size:8.5pt; letter-spacing:.18em; text-transform:uppercase; color:var(--gold); font-weight:700; }
+  h2 { font-size:22pt; line-height:1.15; margin:3mm 0 5mm; }
+  h3 { font-size:12.5pt; margin:0 0 2mm; }
+  p { margin:0 0 3mm; }
+  .muted { color:var(--muted); }
+  .foot { position:absolute; left:17mm; right:17mm; bottom:9mm; display:flex; justify-content:space-between; font-size:7.5pt; color:var(--muted); border-top:1px solid var(--line); padding-top:2.5mm; }
+
+  /* cover */
+  .cover { background:linear-gradient(160deg,#0F0F12 0%,#2B2217 100%); color:var(--ivory); display:flex; flex-direction:column; justify-content:space-between; }
+  .cover .mono { width:22mm; height:22mm; border-radius:50%; border:.7mm solid var(--gold); display:flex; align-items:center; justify-content:center; font-family:Georgia,serif; font-weight:700; font-size:20pt; color:var(--gold); background:#17171B; letter-spacing:.06em; }
+  .cover h1 { font-size:40pt; line-height:1.08; margin:8mm 0 6mm; }
+  .cover h1 em { color:var(--gold); font-style:normal; }
+  .cover .lede { font-size:13pt; color:var(--goldsoft); max-width:130mm; }
+  .cover .by { font-size:10pt; color:#CFC8BB; }
+  .cover .fine { font-size:7.8pt; color:#9C968A; margin-top:4mm; max-width:140mm; }
+  .chips { display:flex; flex-wrap:wrap; gap:2mm; margin-top:8mm; }
+  .chip { border:1px solid var(--gold); color:var(--goldsoft); border-radius:99px; padding:1.2mm 3.6mm; font-size:8.8pt; }
+
+  /* cards & grids */
+  .grid2 { display:grid; grid-template-columns:1fr 1fr; gap:5mm; }
+  .grid3 { display:grid; grid-template-columns:repeat(3,1fr); gap:4mm; }
+  .card { background:#fff; border:1px solid var(--line); border-radius:3.5mm; padding:4.5mm 5mm; }
+  .card.dark { background:var(--ink); color:var(--ivory); border-color:var(--ink); }
+  .card.dark .muted { color:#B9B2A4; }
+  .stat { font-family:Georgia,serif; font-size:19pt; color:var(--gold); line-height:1.1; }
+  .small { font-size:9pt; }
+  ul { margin:0; padding-left:4.5mm; } li { margin-bottom:1.6mm; }
+  .tag { display:inline-block; font-size:7.5pt; font-weight:700; letter-spacing:.06em; padding:.4mm 2mm; border-radius:99px; background:var(--goldsoft); color:#6b4d1d; vertical-align:middle; }
+  .tag.ok { background:#D8EBE1; color:#1d5b40; }
+  .note { background:#FFF8EA; border:1px solid var(--goldsoft); border-radius:3mm; padding:3.5mm 4.5mm; font-size:9.3pt; }
+
+  /* flow */
+  .flow { display:flex; align-items:stretch; gap:0; margin:2mm 0 4mm; }
+  .step { flex:1; background:#fff; border:1px solid var(--line); border-radius:3mm; padding:3mm 2.6mm; text-align:center; font-size:8.6pt; line-height:1.3; position:relative; }
+  .step b { display:block; font-family:Georgia,serif; font-size:10pt; margin-bottom:.8mm; }
+  .step .n { display:block; width:5.4mm; height:5.4mm; border-radius:50%; background:var(--ink); color:var(--gold); font-size:7.6pt; font-weight:700; line-height:5.4mm; margin:0 auto 1.6mm; }
+  .arrow { width:5mm; display:flex; align-items:center; justify-content:center; color:var(--gold); font-weight:700; font-size:11pt; }
+  .step.gold { background:var(--ink); color:var(--ivory); border-color:var(--ink); } .step.gold .n { background:var(--gold); color:var(--ink); }
+  .lane { border:1px dashed #CDBF9F; border-radius:3mm; padding:3.2mm 4mm; margin-bottom:3.2mm; background:rgba(255,255,255,.55); }
+  .lane .lt { font-size:8pt; letter-spacing:.12em; text-transform:uppercase; font-weight:700; color:var(--gold); margin-bottom:1.6mm; }
+  .pills { display:flex; align-items:center; flex-wrap:wrap; gap:1.6mm; font-size:8.8pt; }
+  .pill { background:#fff; border:1px solid var(--line); border-radius:99px; padding:1mm 3mm; }
+  .pill.dk { background:var(--ink); color:var(--ivory); border-color:var(--ink); }
+  .sep { color:var(--gold); font-weight:700; }
+
+  /* phones */
+  .phones { display:grid; grid-template-columns:repeat(4, 1fr); gap:4mm 4mm; margin-top:2mm; }
+  .ph { text-align:center; }
+  .phone { border:1.1mm solid #111; border-radius:5.2mm; overflow:hidden; background:#000; box-shadow:0 2mm 4mm rgba(0,0,0,.18); }
+  .phone img { display:block; width:100%; height:auto; }
+  .cap { font-size:8.2pt; margin-top:1.6mm; line-height:1.25; } .cap b { display:block; font-size:8.8pt; }
+
+  table { width:100%; border-collapse:collapse; font-size:9.2pt; }
+  th, td { text-align:left; padding:2.4mm 3mm; vertical-align:top; border-bottom:1px solid var(--line); }
+  th { font-size:8pt; letter-spacing:.1em; text-transform:uppercase; color:var(--muted); }
+  td:first-child { font-weight:700; white-space:nowrap; }
+</style>
+</head>
+<body>
+
+<!-- 1 · COVER -->
+<section class="page cover">
+  <div>
+    <div class="mono">HR</div>
+    <div class="kicker" style="margin-top:14mm">Proposal · Mobile app MVP</div>
+    <h1>Hair Rap by Yoyo,<br><em>in every pocket.</em></h1>
+    <p class="lede">One app for booking, shopping, rewards and the Academy. Built in React Native, and already working as a clickable prototype you can try on a phone.</p>
+    <div class="chips">
+      <span class="chip">Book in under a minute</span>
+      <span class="chip">Shop pro hair care</span>
+      <span class="chip">Rewards &amp; tiers</span>
+      <span class="chip">Bridal &amp; at-home enquiries</span>
+      <span class="chip">Android first, iOS next</span>
+    </div>
+  </div>
+  <div>
+    <div class="by">Prepared by <b>Harshil Buha</b> for the Hair Rap by Yoyo team · October 2026</div>
+    <div class="fine">Unofficial concept prototype, built only from public information: the menu, prices, product catalogue, logo and photography all come from hairrapbyyoyo.com, and are shown here only to demonstrate the idea. Service durations are not published, so they are estimates. Not affiliated with or endorsed by Hair Rap by Yoyo.</div>
+  </div>
+</section>
+
+<!-- 2 · COMPANY + OPPORTUNITY -->
+<section class="page">
+  <div class="kicker">What I learned</div>
+  <h2>A premium brand with a lot to offer, and no app yet</h2>
+
+  <div class="grid3" style="margin-bottom:5mm">
+    <div class="card"><div class="stat">45,000+</div><div class="small muted">services delivered to 9,000+ clients since 2022, as published on your About page</div></div>
+    <div class="card"><div class="stat">170+</div><div class="small muted">services on your public menu, priced by stylist level, hair length and facial method</div></div>
+    <div class="card"><div class="stat">86</div><div class="small muted">products in your online shop from pH, GK, Biotop, Schwarzkopf, OSiS+, Olaplex and milk_shake</div></div>
+  </div>
+
+  <div class="grid2">
+    <div class="card">
+      <h3>Today</h3>
+      <ul class="small">
+        <li><b>Flagship:</b> Shilp Satved, Bodakdev, Ahmedabad. Open 10 am to 9 pm.</li>
+        <li><b>Services:</b> hair, colour, treatments, skin, body, nails, hand &amp; foot rituals.</li>
+        <li><b>Pricing:</b> cuts and beard by stylist level, from Stylist up to Creative Director (Yoyo).</li>
+        <li><b>Bridal &amp; groom:</b> a makeup lounge with its own terms, in Ahmedabad or at a destination.</li>
+        <li><b>Memberships &amp; Academy:</b> six HNI and corporate lounge plans, and the Trendsetter Academy.</li>
+        <li><b>Booking:</b> through the website's appointment page.</li>
+        <li><b>No mobile app</b> mentioned on the website or in my searches.</li>
+      </ul>
+    </div>
+    <div class="card dark">
+      <h3>What an app changes</h3>
+      <ul class="small">
+        <li><b>Faster booking</b> with a saved profile and one-tap rebooking.</li>
+        <li><b>Reminders by push</b> help reduce missed appointments.</li>
+        <li><b>Rewards tiers</b> give clients a reason to come back.</li>
+        <li><b>Shop on the phone</b> for the same products used in the chair.</li>
+        <li><b>One app for every lounge</b> as the franchise grows.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="card" style="margin-top:5mm">
+    <h3>Good news: the foundations are already there <span class="tag ok">from public page source</span></h3>
+    <p class="small" style="margin:0">The website appears to run on <b>WordPress + WooCommerce</b>, with <b>myCRED</b> (points) and <b>TeraWallet</b> (wallet) plugins. That means the app can plug into the existing shop, customer accounts and points instead of starting a separate system from zero. The prototype already reads the shop's public product feed, so the 86 products, names and prices you see in the app are your real catalogue. I would confirm the rest with whoever manages the site.</p>
+  </div>
+
+  <div class="note" style="margin-top:4.5mm"><b>Small website fix spotted:</b> one link on the <i>/yoyo/</i> page points to the theme's demo booking page (<i>paulhair.qodeinteractive.com/appointment/</i>) instead of your own <i>/appointment/</i>. Worth redirecting, and the app would avoid this class of problem.</div>
+
+  <div class="foot"><span>Hair Rap by Yoyo · App MVP proposal</span><span>2</span></div>
+</section>
+
+<!-- 3 · FLOW -->
+<section class="page">
+  <div class="kicker">How it works</div>
+  <h2>The customer journey, end to end</h2>
+  <p class="muted small">Browsing needs no account. Sign-in (mobile number + OTP) only appears at the moment of confirming, so nobody is turned away at the door.</p>
+
+  <div class="lane">
+    <div class="lt">Main flow · booking an appointment</div>
+    <div class="flow">
+      <div class="step"><span class="n">1</span><b>Discover</b>Home: offers, signature services, founder</div>
+      <div class="arrow">›</div>
+      <div class="step"><span class="n">2</span><b>Choose</b>Women / Men, category, options like hair length</div>
+      <div class="arrow">›</div>
+      <div class="step"><span class="n">3</span><b>Time</b>Stylist level, date, free slots</div>
+      <div class="arrow">›</div>
+      <div class="step"><span class="n">4</span><b>Review</b>Price, duration, notes, pay at salon</div>
+      <div class="arrow">›</div>
+      <div class="step gold"><span class="n">5</span><b>Confirm</b>OTP sign-in, booking reference</div>
+    </div>
+    <div class="flow" style="margin-bottom:0">
+      <div class="step"><span class="n">6</span><b>Remind</b>Push reminder before the visit <span class="tag">Phase 1</span></div>
+      <div class="arrow">›</div>
+      <div class="step"><span class="n">7</span><b>Visit</b>Directions, call, WhatsApp</div>
+      <div class="arrow">›</div>
+      <div class="step"><span class="n">8</span><b>Earn</b>1 point per ₹100 on completed visits</div>
+      <div class="arrow">›</div>
+      <div class="step"><span class="n">9</span><b>Tier up</b>Silver, Gold, Black</div>
+      <div class="arrow">›</div>
+      <div class="step gold"><span class="n">10</span><b>Rebook</b>"Book again" in one tap</div>
+    </div>
+  </div>
+
+  <div class="lane">
+    <div class="lt">Shop</div>
+    <div class="pills"><span class="pill">Browse by brand</span><span class="sep">›</span><span class="pill">Add to bag</span><span class="sep">›</span><span class="pill">Sign in</span><span class="sep">›</span><span class="pill dk">Place order (pay at salon / on delivery)</span><span class="sep">›</span><span class="pill">Online payment <span class="tag">Phase 2</span></span></div>
+  </div>
+  <div class="lane">
+    <div class="lt">Bridal, groom &amp; at-home</div>
+    <div class="pills"><span class="pill">Choose occasion</span><span class="sep">›</span><span class="pill">Ahmedabad / destination</span><span class="sep">›</span><span class="pill">Date &amp; notes</span><span class="sep">›</span><span class="pill dk">Opens WhatsApp with the message ready</span></div>
+  </div>
+  <div class="lane">
+    <div class="lt">Academy</div>
+    <div class="pills"><span class="pill">Process · Quick Tips · Courses · Masterclass</span><span class="sep">›</span><span class="pill dk">Enquire on WhatsApp</span><span class="sep">›</span><span class="pill">Online enrolment <span class="tag">Phase 3</span></span></div>
+  </div>
+  <div class="lane" style="background:#fff">
+    <div class="lt">Salon side · admin dashboard <span class="tag">Phase 1</span></div>
+    <div class="pills"><span class="pill">Today's bookings calendar</span><span class="pill">Edit services &amp; prices</span><span class="pill">Stylist availability &amp; leave</span><span class="pill">Confirm / reschedule</span><span class="pill">Send offers by push</span><span class="pill">Reports</span></div>
+  </div>
+
+  <div class="foot"><span>Hair Rap by Yoyo · App MVP proposal</span><span>3</span></div>
+</section>
+
+<!-- 4 · MVP SCREENS -->
+<section class="page">
+  <div class="kicker">What I built</div>
+  <h2>A working prototype, not just mock-ups</h2>
+  <p class="muted small" style="margin-bottom:3mm">Every screen below is the real app running. The booking flow, slot logic, sign-in, rewards and shop bag all work and survive closing the app. Every price, product and photo comes from your public website, and the price follows the stylist level the client picks.</p>
+
+  <div class="phones">
+    <div class="ph"><div class="phone"><img src="screens/home.png" alt="Home"></div><div class="cap"><b>Home</b>Your brand and lounge</div></div>
+    <div class="ph"><div class="phone"><img src="screens/services.png" alt="Services"></div><div class="cap"><b>Menu</b>Your real services</div></div>
+    <div class="ph"><div class="phone"><img src="screens/schedule.png" alt="Schedule"></div><div class="cap"><b>Choose a time</b>Price by stylist level</div></div>
+    <div class="ph"><div class="phone"><img src="screens/review.png" alt="Review"></div><div class="cap"><b>Review</b>Line items and points</div></div>
+    <div class="ph"><div class="phone"><img src="screens/confirmed.png" alt="Confirmed"></div><div class="cap"><b>Confirmed</b>Reference + directions</div></div>
+    <div class="ph"><div class="phone"><img src="screens/shop.png" alt="Shop"></div><div class="cap"><b>Shop</b>Your catalogue, 86 products</div></div>
+    <div class="ph"><div class="phone"><img src="screens/memberships.png" alt="Memberships"></div><div class="cap"><b>Memberships</b>Bella to Elegante</div></div>
+    <div class="ph"><div class="phone"><img src="screens/about.png" alt="About"></div><div class="cap"><b>About &amp; team</b>Story, stats, people</div></div>
+  </div>
+
+  <div class="foot"><span>Hair Rap by Yoyo · App MVP proposal</span><span>4</span></div>
+</section>
+
+<!-- 5 · PLAN -->
+<section class="page">
+  <div class="kicker">What it takes</div>
+  <h2>From prototype to the app store</h2>
+
+  <div class="grid2" style="margin-bottom:5mm">
+    <div class="card">
+      <h3>What I need from you</h3>
+      <ul class="small">
+        <li><b>Brand kit:</b> official logo files, colours, fonts, and approval to use your photos.</li>
+        <li><b>Menu check:</b> confirm the prices, add service durations (they are not published), and review one price on the Luxury Colour list that looks like a typo.</li>
+        <li><b>Team &amp; hours:</b> stylists, working days, breaks, holidays.</li>
+        <li><b>Booking today:</b> is a salon software in use, or is it manual?</li>
+        <li><b>Payments:</b> a Razorpay (or similar) account for UPI and cards.</li>
+        <li><b>WhatsApp Business</b> number for enquiries.</li>
+        <li><b>Policies:</b> cancellation, late arrival, rewards rules.</li>
+        <li><b>Site access</b> for the WooCommerce / myCRED connection.</li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>How it is built</h3>
+      <ul class="small">
+        <li><b>React Native (Expo) + TypeScript</b>: one codebase for Android and iOS.</li>
+        <li><b>Backend:</b> reuse WooCommerce where it fits, plus a small API for bookings and availability.</li>
+        <li><b>Sign-in:</b> mobile OTP (Firebase or MSG91).</li>
+        <li><b>Push reminders:</b> Firebase Cloud Messaging.</li>
+        <li><b>Payments:</b> Razorpay, UPI first.</li>
+        <li><b>Admin:</b> a simple web dashboard for the front desk.</li>
+        <li><b>Android build</b> targets 64-bit ARM (arm64-v8a) phones, which keeps the install small.</li>
+      </ul>
+    </div>
+  </div>
+
+  <h3>Suggested phases <span class="muted small" style="font-weight:400;font-family:'Segoe UI'">(indicative; refined after the walkthrough)</span></h3>
+  <table>
+    <tr><th style="width:24mm">Phase</th><th>What you get</th><th style="width:24mm">Time</th></tr>
+    <tr><td>0 · Done</td><td>Clickable prototype (this document), Android install file, your real menu, prices, products and photography.</td><td>Ready</td></tr>
+    <tr><td>1 · Live booking</td><td>Real availability per stylist, mobile OTP, push reminders, admin dashboard, Play Store release.</td><td>4 to 5 weeks</td></tr>
+    <tr><td>2 · Shop &amp; pay</td><td>Shop synced with WooCommerce, UPI and card payments, wallet and points from your existing plugins.</td><td>3 to 4 weeks</td></tr>
+    <tr><td>3 · Grow</td><td>Memberships and vouchers, Academy enrolment, multi-lounge support for franchise, analytics, iOS release.</td><td>4 weeks</td></tr>
+  </table>
+
+  <div class="card dark" style="margin-top:6mm">
+    <h3>Next steps</h3>
+    <p class="small" style="margin-bottom:2mm"><b>1.</b> A 20-minute walkthrough of the prototype on a real phone.&nbsp; <b>2.</b> You share the inputs above (even partial is fine).&nbsp; <b>3.</b> We agree the Phase 1 scope and start.</p>
+    <p class="small muted" style="margin:0">I would be glad to run the walkthrough at the salon, or over a call.</p>
+  </div>
+
+  <div style="margin-top:6mm" class="small"><b>Harshil Buha</b> · React Native developer<br>+91 98986 69528 · harshilbuha119@gmail.com</div>
+
+  <div class="foot"><span>Hair Rap by Yoyo · App MVP proposal</span><span>5</span></div>
+</section>
+
+</body>
+</html>

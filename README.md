@@ -1,56 +1,85 @@
-# Welcome to your Expo app 👋
+# Hair Rap by Yoyo: App MVP (unofficial concept)
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+React Native (Expo SDK 58, TypeScript, Expo Router) prototype of a customer app for the Hair Rap by Yoyo salon.
+Built from public information only. Prices that are not on the public website are placeholders (`source: 'sample'` in `src/data/catalog.ts`).
 
-## Get started
+## What works
 
-1. Install dependencies
+| Area | Details |
+| --- | --- |
+| Home | Brand hero, next appointment, call / WhatsApp / directions, signature services, founder, academy, shop picks |
+| Services | Women / Men, categories, multi-select with live total and duration |
+| Booking | Stylist, 14-day date strip, free-slot logic that respects service duration and your own bookings, review, confirm |
+| Sign-in | Name + mobile + OTP, only at the confirm step (**demo OTP: `1234`**) |
+| My bookings | Upcoming / past, cancel, book again |
+| Rewards | 1 point per ₹100 on completed visits, Silver / Gold / Black tiers |
+| Shop | Brand filter, bag with quantities, place order (pay at salon / delivery) |
+| Bridal & at-home | Enquiry form that opens WhatsApp with the message prefilled |
+| Academy | Four sections with WhatsApp enquiry |
 
-   ```bash
-   npm install
-   ```
+State is saved on the device with AsyncStorage. There is no backend in this MVP (see `docs/Hair-Rap-by-Yoyo-App-Proposal.pdf` for the plan).
 
-2. Start the app
+## Content and images
 
-   ```bash
-   npx expo start
-   ```
+Everything comes from the salon's public website (hairrapbyyoyo.com) so the demo matches the real brand:
 
-In the output, you'll find options to open the app in a
+- **Menu and prices**: `src/data/menu.ts`, transcribed from the service price pages (about 170 services, priced by stylist level, hair length and facial method). Durations are not published, so they are estimates. One Luxury Colour price (shoulder length, global colour with ammonia) shows ₹2,500 on the site and looks like a typo, so it is left as "on consultation".
+- **Products**: `src/data/products.ts`, generated from the shop's public product feed (86 products, real names, prices and photos).
+- **Photography, logo and brand tiles**: `assets/site`, `assets/brand`, `assets/brands`, resized from the site's images. Mapping in `src/data/images.ts`.
+- **Team, memberships, academy, bridal terms**: from the About, Team, Lounge Memberships, Academy and Makeup Lounge pages.
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+These are the salon's own assets, used here only to show them the idea. Replace with official files before any wider use.
 
-You can start developing by editing the files inside the **src/app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+## Status bar
 
-## Get a fresh project
+`src/components/status-bar.tsx` uses React Native's `StatusBar` with `translucent` and a transparent background, so content draws under it. Home switches to light icons while it is focused (its hero is dark).
 
-When you're ready, run:
+## Run it
 
-```bash
-npm run reset-project
+```powershell
+npm install
+npx expo start          # press "a" for an Android device/emulator, or "w" for the browser
 ```
 
-This command will move the starter code to the **example** directory and create a blank **src/app** directory where you can start developing.
+Quality checks: `npx tsc --noEmit` and `npx expo lint`.
 
-### Other setup steps
+## Build an Android APK for 64-bit ARM only (small and low on disk)
 
-- To set up ESLint for linting, run `npx expo lint`, or follow our guide on ["Using ESLint and Prettier"](https://docs.expo.dev/guides/using-eslint/)
-- If you'd like to set up unit testing, follow our guide on ["Unit Testing with Jest"](https://docs.expo.dev/develop/unit-testing/)
-- Learn more about the TypeScript setup in this template in our guide on ["Using TypeScript"](https://docs.expo.dev/guides/typescript/)
+`app.json` configures `expo-build-properties` with `buildArchs: ["arm64-v8a"]`, so only the arm64-v8a native libraries are compiled.
+That skips armeabi-v7a, x86 and x86_64, which cuts build time, build size and APK size. Almost every phone from the last several years is arm64-v8a.
 
-## Learn more
+```powershell
+npx expo prebuild --platform android
+cd android
+.\gradlew.bat app:assembleRelease --no-daemon
+# APK: android\app\build\outputs\apk\release\app-release.apk
+```
 
-To learn more about developing your project with Expo, look at the following resources:
+Notes:
+- Use JDK 17 for the build (`JAVA_HOME`). Gradle will use it automatically if it is the default.
+- RN 0.88 asks for Node 22.13 or newer. Older 22.x gives a warning.
+- The release build is signed with the debug keystore, which is fine for demos. Create a real upload key before publishing to Google Play.
+- The emulator on an x86 PC cannot run an arm64-only APK. Install it on a real phone (enable USB debugging, or send the APK file).
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+## Free up disk space
 
-## Join the community
+Safe to delete at any time (they are regenerated):
 
-Join our community of developers creating universal apps.
+```powershell
+Remove-Item -Recurse -Force android\build, android\app\build, android\.gradle   # build output
+Remove-Item -Recurse -Force node_modules                                        # then `npm install` again
+.\android\gradlew.bat --stop                                                    # stop idle Gradle daemons (frees RAM)
+```
 
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+`android/` is generated by `npx expo prebuild` and is git-ignored, so the whole folder can be removed too.
+
+## Project layout
+
+```
+src/app/            routes (Expo Router): (tabs)/, book/, bag, login, academy, enquiry
+src/components/     ui.tsx (buttons, chips, cards...), cards.tsx (service row, product card, cart bar)
+src/data/catalog.ts services, products, stylists, academy
+src/store/          app state + persistence, rewards logic
+src/lib/            formatting, slot availability, contact deep links
+docs/               proposal (HTML + PDF) and the screenshots it uses
+```
